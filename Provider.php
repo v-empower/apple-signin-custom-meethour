@@ -15,7 +15,7 @@ use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
-use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
+use Lcobucci\JWT\Validation\Constraint\ValidAt as LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use Psr\Http\Message\ResponseInterface;
@@ -139,7 +139,7 @@ class Provider extends AbstractProvider
             }
 
             $this->jwtConfig = Configuration::forSymmetricSigner(
-                new $signer(),
+                new $signer(new \Lcobucci\JWT\Signer\Ecdsa\MultibyteStringConverter()),
                 AppleSignerInMemory::plainText($this->privateKey, $private_key_passphrase)
             );
 
